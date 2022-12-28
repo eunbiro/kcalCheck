@@ -38,3 +38,8 @@ function chkDelete(food_no, member_no) {
 		return false;
 	}
 }
+
+function chk_cancle(member_no) {
+		const url = location.origin;
+		location.href = url + "/kcalCheck/alonelist?&member_no=" + member_no;
+}

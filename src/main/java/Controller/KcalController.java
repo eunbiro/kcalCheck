@@ -67,6 +67,9 @@ public class KcalController extends HttpServlet {
 		case "/edit" :
 			site = geteditList(request);
 			break;
+		case "/update" :
+			site = updateFood(request);
+			break;
 		case "/result" :
 			site = "result.jsp";
 			break;
@@ -81,7 +84,7 @@ public class KcalController extends HttpServlet {
 		.forward(request, response);
 		}
 	}
-	
+		// 회원목록생성
 	public String getList(HttpServletRequest request) {
 		ArrayList<Member> list = new ArrayList<>();
 		
@@ -97,6 +100,7 @@ public class KcalController extends HttpServlet {
 		return "list.jsp";
 	}
 	
+		// 식단 추가시 select에 음식 종류 생성
 	public String getFood(HttpServletRequest request) {
 		ArrayList<FoodKcal> foodList = new ArrayList<>();
 		
@@ -112,14 +116,16 @@ public class KcalController extends HttpServlet {
 		return "write.jsp";
 	}
 	
+		// 회원별 먹은 식단 목록 생성
 	public String getAloneList(HttpServletRequest request) {
 		int member_no = Integer.parseInt(request.getParameter("member_no"));
 		ArrayList<FoodRecode> list = new ArrayList<>();
-		
+		Member mname;
 		try {
+			mname = dao.getName(member_no);
 			list = dao.getAloneList(member_no);
 			request.setAttribute("list", list);
-			request.setAttribute("member_no", member_no);
+			request.setAttribute("mname", mname);
 		} catch (Exception e) {
 			e.printStackTrace();
 			getServletContext().log("회원식단 목록 생성 과정에서 문제 발생");
@@ -129,9 +135,10 @@ public class KcalController extends HttpServlet {
 		return "alonelist.jsp";
 	}
 	
+		// 회원별 먹은식단 중 한줄 삭제
 	public String deleteFood(HttpServletRequest request) {
 		int food_no = Integer.parseInt(request.getParameter("food_no"));
-		int member_no = Integer.parseInt(request.getParameter("member_no"));
+		String member_no = request.getParameter("member_no");
 		
 		try {
 			dao.deleteFood(food_no);
@@ -141,7 +148,7 @@ public class KcalController extends HttpServlet {
 			
 			try {
 			String encodeName = URLEncoder.encode("회원식단이 정상적으로 삭제되지 않았습니다!", "UTF-8");
-			return "redirect:/redirect:/alonelist?member_no=" + member_no + "error=" + encodeName;
+			return "redirect:/redirect:/alonelist?member_no=" + member_no + "&error=" + encodeName;
 			
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
@@ -152,6 +159,7 @@ public class KcalController extends HttpServlet {
 //		return "redirect:/list";
 	}
 	
+		// 식단추가
 	public String insertFood(HttpServletRequest request) {
 		FoodRecode f = new FoodRecode();
 		try {
@@ -164,7 +172,7 @@ public class KcalController extends HttpServlet {
 			
 			try {
 				String encodeName = URLEncoder.encode("음식추가가 정상적으로 등록되지 않았습니다!", "UTF-8");
-				return "redirect:/redirect:/alonelist?member_no=" + f.getMember_no() + "error=" + encodeName;
+				return "redirect:/redirect:/alonelist?member_no=" + f.getMember_no() + "&error=" + encodeName;
 				
 			} catch (UnsupportedEncodingException e1) {
 				e1.printStackTrace();
@@ -175,6 +183,8 @@ public class KcalController extends HttpServlet {
 //		return "redirect:/home";
 	}
 	
+	
+		// 수정할 때 기존정보 가져옴
 	public String geteditList(HttpServletRequest request) {
 		String food_no = request.getParameter("food_no");
 		ArrayList<FoodKcal> foodList = new ArrayList<>();
@@ -194,5 +204,31 @@ public class KcalController extends HttpServlet {
 		
 		return "edit.jsp";
 	}
+	
+		// 회원별 식단 한줄 수정
+	public String updateFood(HttpServletRequest request) {
+		FoodRecode f = new FoodRecode();
+		try {
+			BeanUtils.populate(f, request.getParameterMap());
+//			f.setFood_no(Integer.parseInt(request.getParameter("food_no")));
+			dao.updateFood(f);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			getServletContext().log("음식수정 등록과정에서 문제 발생");
+			
+			try {
+				String encodeName = URLEncoder.encode("음식수정이 정상적으로 등록되지 않았습니다!", "UTF-8");
+				return "redirect:/alonelist?member_no=" + f.getMember_no() + "&error=" + encodeName;
+				
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return "redirect:/alonelist?member_no=" + f.getMember_no();
+//		return "redirect:/home";
+	}
+	
 
 }

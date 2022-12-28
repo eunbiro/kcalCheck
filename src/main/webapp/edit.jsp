@@ -5,15 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>오늘먹은 음식추가</title>
+<title>오늘먹은 음식수정</title>
 <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
 	<%@ include file="header.jsp" %>
 	<section>
-		<div class="title">오늘먹은 음식추가</div>
+		<div class="title">오늘먹은 음식수정</div>
 		<div>
-			<form name="frm" action="insert">
+			<form name="frm" action="update">
+			<input type="hidden" name="food_no" value="${list.food_no}" />
 				<table class="ipt-tbl">
 					<tr>
 						<th>회원번호</th>
@@ -31,7 +32,7 @@
 						<th>식사시간</th>
 						<td>
 							<select name="time">
-								<option value="">식사시간을 선택해주세요</option>
+								<option value="${list.time}">${list.time}</option>
 								<option value="아침">아침</option>
 								<option value="점심">점심</option>
 								<option value="저녁">저녁</option>
@@ -42,7 +43,7 @@
 						<th>음식</th>
 						<td>
 							<select name="food">
-								<option value="">음식을 선택해주세요</option>
+								<option value="${list.food}">${list.food}</option>
 							<c:forEach var="f" varStatus="i" items="${foodList}">
 								<option value="${f.food}">${f.food}</option>
 							</c:forEach>
@@ -51,8 +52,8 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<button class="btn" type="submit" onclick="fn_Check(); return false;">등 록</button>
-							<button class="btn" type="button" onclick="location='home';">취 소</button>
+							<button class="btn" type="submit" onclick="fn_Check(); return false;">수 정</button>
+							<button class="btn" type="button" onclick="chk_cancle(${list.member_no});">취 소</button>
 						</td>
 					</tr>
 				</table>

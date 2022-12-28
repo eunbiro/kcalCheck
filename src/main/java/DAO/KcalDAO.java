@@ -14,8 +14,6 @@ public class KcalDAO {
 	final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	final String JDBC_URL = "jdbc:oracle:thin:@localhost:1521:xe";
 	
-	
-		// 데이터베이스와의 연결 수행 메소드
 	public Connection open() {
 		Connection conn = null;
 		try {
@@ -25,9 +23,10 @@ public class KcalDAO {
 			e.printStackTrace();
 		}
 		
-		return conn;		// 데이터베이스의 연결 객체를 리턴
+		return conn;
 	}
 	
+		// 회원목록생성
 	public ArrayList<Member> getList() throws Exception {
 		ArrayList<Member> list = new ArrayList<>();
 		
@@ -51,6 +50,7 @@ public class KcalDAO {
 		return list;
 	}
 	
+		// 식단 추가시 select에 음식 종류 생성
 	public ArrayList<FoodKcal> getFood() throws Exception {
 		ArrayList<FoodKcal> foodList = new ArrayList<>();
 		
@@ -71,14 +71,31 @@ public class KcalDAO {
 		return foodList;
 	}
 	
+	public Member getName(int member_no) throws Exception {
+		Member mname = new Member();
+		
+		Connection conn = open();
+		PreparedStatement ps = conn.prepareStatement("SELECT MNAME FROM MEMBER_TBL WHERE MEMBER_NO = " + member_no);
+		ResultSet rs = ps.executeQuery();
+		
+		try (conn; ps; rs) {
+				if (rs.next()) {
+					mname.setMname(rs.getString(1));
+				}
+			}
+		
+		return mname;
+	}
+	
+		// 회원별 먹은 식단 목록 생성
 	public ArrayList<FoodRecode> getAloneList(int member_no) throws Exception {
 		ArrayList<FoodRecode> list = new ArrayList<>();
 		
 		Connection conn = open();
 		PreparedStatement ps = conn.prepareStatement("SELECT A.FOOD_NO, A.MEMBER_NO, TO_CHAR(A.EAT_DATE, 'YYYY-MM-DD') EAT_DATE, A.TIME, A.FOOD, B.KCAL || ' Kcal' "
 													+ "FROM FOOD_RECORD A, FOOD_KCAL B "
-													+ "WHERE A.FOOD = B.FOOD AND MEMBER_NO =" + member_no + " "
-													+ "GROUP BY (A.FOOD_NO, A.MEMBER_NO, A.EAT_DATE, A.TIME, A.FOOD, B.KCAL) "
+													+ "WHERE A.FOOD = B.FOOD AND A.MEMBER_NO =" + member_no + " "
+													+ "GROUP BY (A.FOOD_NO, A.MEMBER_NO, A.EAT_DATE, A.TIME, A.FOOD, B.KCAL ) "
 													+ "ORDER BY EAT_DATE DESC");
 		ResultSet rs = ps.executeQuery();
 		
@@ -100,11 +117,12 @@ public class KcalDAO {
 		return list;
 	}
 	
+		// 수정할 때 기존정보 가져옴
 	public FoodRecode getEditList(String food_no) throws Exception {
 		FoodRecode f = new FoodRecode();
 		
 		Connection conn = open();
-		PreparedStatement ps = conn.prepareStatement("SELECT FOOD_NO, MEMBER_NO, EAT_DATE, TIME, FOOD "
+		PreparedStatement ps = conn.prepareStatement("SELECT FOOD_NO, MEMBER_NO, TO_CHAR(EAT_DATE, 'YYMMDD'), TIME, FOOD "
 													+ "FROM FOOD_RECORD WHERE FOOD_NO = " + food_no);
 		ResultSet rs = ps.executeQuery();
 		
@@ -122,6 +140,7 @@ public class KcalDAO {
 		return f;
 	}
 	
+		// 회원별 먹은식단 중 한줄 삭제
 	public void deleteFood(int food_no) throws Exception {
 		Connection conn = open();
 		PreparedStatement ps = conn.prepareStatement("DELETE FROM FOOD_RECORD WHERE FOOD_NO = ?");
@@ -136,6 +155,7 @@ public class KcalDAO {
 		
 	}
 	
+		// 식단추가
 	public void insertFood(FoodRecode f) throws Exception {
 		Connection conn = open();
 		PreparedStatement ps = conn.prepareStatement("INSERT INTO FOOD_RECORD VALUES (FOOD_RECORD_SEQ.NEXTVAL, ?, ?, ?, ?)");
@@ -145,6 +165,26 @@ public class KcalDAO {
 			ps.setString(2, f.getEat_date());
 			ps.setString(3, f.getTime());
 			ps.setString(4, f.getFood());
+			
+			
+			if (ps.executeUpdate() != 1) {
+				throw new Exception("입력된 음식이 없습니다.");
+			}
+		}
+		
+	}
+	
+		// 회원별 식단 한줄 수정
+	public void updateFood(FoodRecode f) throws Exception {
+		Connection conn = open();
+		PreparedStatement ps = conn.prepareStatement("UPDATE FOOD_RECORD SET MEMBER_NO = ?, EAT_DATE = ?, TIME = ?, FOOD = ? WHERE FOOD_NO= ?");
+		
+		try (conn; ps) {
+			ps.setInt(1, f.getMember_no());
+			ps.setString(2, f.getEat_date());
+			ps.setString(3, f.getTime());
+			ps.setString(4, f.getFood());
+			ps.setInt(5, f.getFood_no());
 			
 			
 			if (ps.executeUpdate() != 1) {

@@ -11,7 +11,7 @@
 <body>
 	<%@ include file="header.jsp" %>
 	<section>
-		<div class="title">회원: ${member_no} 음식목록</div>
+		<div class="title">회원: ${mname.mname} 음식목록</div>
 		<div>
 			<table class="list-tbl">
 				<tr>

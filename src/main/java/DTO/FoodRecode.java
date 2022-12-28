@@ -7,7 +7,16 @@ public class FoodRecode {
 	String time;
 	String food;
 	String kcal;
+	String mname;
 	
+	
+	
+	public String getMname() {
+		return mname;
+	}
+	public void setMname(String mname) {
+		this.mname = mname;
+	}
 	public int getFood_no() {
 		return food_no;
 	}
