@@ -5,13 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원목록</title>
+<title>회원리스트</title>
 <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
 	<%@ include file="header.jsp" %>
 	<section>
-		<div class="title">회원식단관리</div>
+	<div class="wrap">
+		<div class="title">회원리스트</div>
 		<div>
 			<table class="list-tbl">
 				<tr>
@@ -30,6 +31,7 @@
 				</c:forEach>
 			</table>
 		</div>
+	</div>
 	</section>
 	<script type="text/javascript">
 		<c:if test="${param.error != null}">

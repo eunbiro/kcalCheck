@@ -5,13 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>오늘먹은 음식수정</title>
+<title>음식수정</title>
 <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
 	<%@ include file="header.jsp" %>
 	<section>
-		<div class="title">오늘먹은 음식수정</div>
+	<div class="wrap">
+		<div class="title">음식수정</div>
 		<div>
 			<form name="frm" action="update">
 			<input type="hidden" name="food_no" value="${list.food_no}" />
@@ -59,6 +60,7 @@
 				</table>
 			</form>
 		</div>
+	</div>
 	</section>
 	<script type="text/javascript">
 		<c:if test="${param.error != null}">

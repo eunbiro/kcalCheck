@@ -71,7 +71,7 @@ public class KcalController extends HttpServlet {
 			site = updateFood(request);
 			break;
 		case "/result" :
-			site = "result.jsp";
+			site = getTotalKcal(request);
 			break;
 		}
 		
@@ -98,6 +98,21 @@ public class KcalController extends HttpServlet {
 		}
 		
 		return "list.jsp";
+	}
+		// 회원별 칼로리 조회
+	public String getTotalKcal(HttpServletRequest request) {
+		ArrayList<FoodRecode> list = new ArrayList<>();
+		
+		try {
+			list = dao.getTotalKcal();
+			request.setAttribute("list", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			getServletContext().log("칼로리 목록 생성 과정에서 문제 발생");
+			request.setAttribute("error", "칼로리 목록이 정상적으로 처리되지 않았습니다!");
+		}
+		
+		return "result.jsp";
 	}
 	
 		// 식단 추가시 select에 음식 종류 생성

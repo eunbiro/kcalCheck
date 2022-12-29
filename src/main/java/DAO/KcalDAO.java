@@ -50,6 +50,32 @@ public class KcalDAO {
 		return list;
 	}
 	
+		// 회원별 칼로리 조회
+	public ArrayList<FoodRecode> getTotalKcal() throws Exception {
+		ArrayList<FoodRecode> list = new ArrayList<>();
+		
+		Connection conn = open();
+		PreparedStatement ps = conn.prepareStatement("SELECT A.MNAME, SUM(C.KCAL) KCAL "
+													+ "FROM MEMBER_TBL A, FOOD_RECORD B, FOOD_KCAL C "
+													+ "WHERE A.MEMBER_NO = B.MEMBER_NO AND B.FOOD = C.FOOD "
+													+ "GROUP BY A.MNAME ORDER BY KCAL DESC");
+		ResultSet rs = ps.executeQuery();
+		
+		try (conn; ps; rs) {
+			while (rs.next()) {
+				FoodRecode f = new FoodRecode();
+				
+				f.setMname(rs.getString(1));
+				f.setKcal(rs.getString(2) + " Kcal");
+				
+				
+				list.add(f);
+			}
+		}
+		
+		return list;
+	}
+	
 		// 식단 추가시 select에 음식 종류 생성
 	public ArrayList<FoodKcal> getFood() throws Exception {
 		ArrayList<FoodKcal> foodList = new ArrayList<>();

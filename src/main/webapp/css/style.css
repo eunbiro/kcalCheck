@@ -1,4 +1,16 @@
 @charset "UTF-8";
+@font-face {
+    font-family: 'KIMM_Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Tenada';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Tenada.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 * {
 	margin: 0;
@@ -7,48 +19,71 @@
 
 a {
 	text-decoration: none;
-	color: green;
+	color: #4a62d2;
+	display: inline-block;
 }
 
 header {
 	width: 100%;
-	height: 150px;
-	line-height: 150px;
-	background: #fced32;
-	color: green;
-	font-size: 30px;
-	font-weight: 800;
+	height: 120px;
+	line-height: 160px;
+	color: #4a62d2;
+	font-size: 43px;
 	text-align: center;
 	letter-spacing: 5px;
+	font-family: 'Tenada';
 }
 
+nav {
+	width: 100%;
+	text-align: center;
+	border-top: 2px solid #4a62d2;
+	border-bottom: 2px solid #4a62d2;
+}
 
 ul {
+	margin: 0 auto;
+	width: 1000px;
+	display: flex;
+	position: relative;
 	height: 60px;
 	line-height: 60px;
-	display: flex;
-	background: #fdc542;
+	justify-content: space-around;
+	align-items: center;
 }
 
 ul li {
 	list-style: none;
-	margin: 0 5px;
-	padding: 0 5px;
+	width: 200px;
+	height: 60px;
+	text-align: center;
+}
+
+ul li a {
+	overflow: hidden;
+	font-family: 'KIMM_Bold';
+	width: 200px;
+	height: 60px;
+}
+
+ul li a:hover {
+	border-radius: 8px;
+	color: #fdc748;
 }
 
 section {
 	width: 100%;
 	height: 100%;
 	padding: 0 10px;
+	background: #2c2c2c;
 }
 
-h2 {
-	width: 100%;
-	text-align: center;
-	height: 80px;
-	line-height: 80x;
-	font-size: 30px;
-	margin: 20px 0;
+.wrap {
+	margin: 0 auto;
+	width: 1000px;
+	height: 1000px;
+	background: #fff;
+	padding: 10px;
 }
 
 .title {
@@ -56,21 +91,24 @@ h2 {
 	text-align: center;
 	height: 80px;
 	line-height: 80px;
-	font-size: 30px;
-	margin: 20px 0;
-	font-weight: 500;
+	font-size: 38px;
+	padding: 50px 0 20px;
+	font-family: 'Tenada';
 }
 
 table {
 	margin: 0 auto;
+	font-family: 'KIMM_Bold';
 }
 
 th {
 	padding: 5px 20px;
-	background: #008000;
+	text-align: center;
+	border-top: 2px solid #4a62d2;
+	border-bottom: 2px solid #4a62d2;
 	border-radius: 8px;
 	height: 40px;
-	color: #fff;
+	color: #4a62d2;
 }
 
 .list-tbl tr th {
@@ -79,8 +117,17 @@ th {
 }
 
 .tr-list {
-	height: 45px;
+	padding: 10px 0;
+	height: 70px;
 	text-align: center;
+}
+
+.tr-list a:hover {
+	color: #fdc748;
+}
+
+.ipt-tbl th{
+	width: 130px;
 }
 
 .ipt-tbl td {
@@ -90,12 +137,12 @@ th {
 }
 
 .ipt-tbl input, .ipt-tbl select {
-	margin: 1px 15px;
+	margin: 1px 5px 1px 50px;
 	padding: 0 10px;
 	width: 280px;
 	height: 40px;
 	border-radius: 8px;
-	border-color: #008000;
+	border-color: #4a62d2;
 	font-size: 15px;
 }
 
@@ -104,8 +151,26 @@ th {
 }
 
 .btn {
+	width: 80px;
 	margin: 10px 10px;
-	padding: 5px 15px;
+	padding: 10px 15px;
 	text-align: center;
+	font-size: 13px;
+	font-family: 'KIMM_Bold';
+	letter-spacing: 3px;
+	border: 1px solid #4a62d2;
+	border-radius: 8px;
+	color: #4a62d2;
+	background: #fff;
+}
+
+.del-btn {
+	width: 50px;
+}
+
+.del-btn a {
+	text-decoration: underline;
+	cursor: pointer;
+	width: 50px;
 }
 

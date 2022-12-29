@@ -12,6 +12,7 @@
 <body>
 	<%@ include file="header.jsp" %>
 	<section>
+	<div class="wrap">
 		<div class="title">오늘먹은 음식추가</div>
 		<div>
 			<form name="frm" action="insert">
@@ -59,6 +60,7 @@
 				</table>
 			</form>
 		</div>
+	</div>
 	</section>
 	<script type="text/javascript">
 		<c:if test="${param.error != null}">

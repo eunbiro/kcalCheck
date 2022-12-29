@@ -11,6 +11,7 @@
 <body>
 	<%@ include file="header.jsp" %>
 	<section>
+	<div class="wrap">
 		<div class="title">회원: ${mname.mname} 음식목록</div>
 		<div>
 			<table class="list-tbl">
@@ -19,7 +20,7 @@
 					<th>식사시간</th>
 					<th>음식</th>
 					<th>칼로리</th>
-					<th></th>
+					<th class="del-btn"></th>
 				</tr>
 				<c:forEach var="m" varStatus="i" items="${list}">
 				<tr class="tr-list">
@@ -27,11 +28,12 @@
 					<td>${m.time}</td>
 					<td>${m.food}</td>
 					<td>${m.kcal}</td>
-					<td><a style="text-decoration: underline;" onclick="chkDelete(${m.food_no}, ${member_no}); return false;">삭 제</a></td>
+					<td class="del-btn"><a onclick="chkDelete(${m.food_no}, ${m.member_no}); return false;">삭 제</a></td>
 				</tr>
 				</c:forEach>
 			</table>
 		</div>
+	</div>
 	</section>
 	<script type="text/javascript">
 		<c:if test="${param.error != null}">
