@@ -50,6 +50,25 @@ public class KcalDAO {
 		return list;
 	}
 	
+	// 회원번호생성
+	public Member getAdd() throws Exception {
+		Member member_no = new Member();
+		
+		Connection conn = open();
+		PreparedStatement ps = conn.prepareStatement("SELECT MAX(MEMBER_NO) + 1 FROM MEMBER_TBL");
+		ResultSet rs = ps.executeQuery();
+		
+		try (conn; ps; rs) {
+			if (rs.next()) {
+				
+				member_no.setMember_no(rs.getInt(1));
+				
+			}
+		}
+		
+		return member_no;
+	}
+	
 		// 회원별 칼로리 조회
 	public ArrayList<FoodRecode> getTotalKcal() throws Exception {
 		ArrayList<FoodRecode> list = new ArrayList<>();
@@ -195,6 +214,27 @@ public class KcalDAO {
 			
 			if (ps.executeUpdate() != 1) {
 				throw new Exception("입력된 음식이 없습니다.");
+			}
+		}
+		
+	}
+	
+	
+	// 회원추가
+	public void addInsert(Member m) throws Exception {
+		Connection conn = open();
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO MEMBER_TBL VALUES (?, ?, ?, ?)");
+		
+		try (conn; ps) {
+			ps.setInt(1, m.getMember_no());
+			ps.setString(2, m.getMname());
+			ps.setInt(3, m.getHeight());
+//			String needKcal = "" + ((m.getHeight() - 100) * 0.9 ) * 25;
+			ps.setString(4, String.valueOf(((m.getHeight() - 100) * 0.9 ) * 25));
+			
+			
+			if (ps.executeUpdate() != 1) {
+				throw new Exception("입력된 회원이 없습니다.");
 			}
 		}
 		

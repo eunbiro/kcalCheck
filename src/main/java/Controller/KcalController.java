@@ -73,6 +73,12 @@ public class KcalController extends HttpServlet {
 		case "/result" :
 			site = getTotalKcal(request);
 			break;
+		case "/add" :
+			site = getAdd(request);
+			break;
+		case "/addInsert" :
+			site = addInsert(request);
+			break;
 		}
 		
 		if (site.startsWith("redirect:/")) {		// startsWith : redirect 문자열로 시작하는 것을 찾음
@@ -98,6 +104,21 @@ public class KcalController extends HttpServlet {
 		}
 		
 		return "list.jsp";
+	}
+		// 회원등록시 회원번호생성
+	public String getAdd(HttpServletRequest request) {
+		Member member = new Member();
+		
+		try {
+			member = dao.getAdd();
+			request.setAttribute("member", member);
+		} catch (Exception e) {
+			e.printStackTrace();
+			getServletContext().log("회원 번호 생성 과정에서 문제 발생");
+			request.setAttribute("error", "회원 번호가 정상적으로 처리되지 않았습니다!");
+		}
+		
+		return "add.jsp";
 	}
 		// 회원별 칼로리 조회
 	public String getTotalKcal(HttpServletRequest request) {
@@ -243,6 +264,30 @@ public class KcalController extends HttpServlet {
 		
 		return "redirect:/alonelist?member_no=" + f.getMember_no();
 //		return "redirect:/home";
+	}
+	
+	
+		// 회원추가
+	public String addInsert(HttpServletRequest request) {
+		Member m = new Member();
+		try {
+			BeanUtils.populate(m, request.getParameterMap());
+			dao.addInsert(m);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			getServletContext().log("음식수정 등록과정에서 문제 발생");
+			
+			try {
+				String encodeName = URLEncoder.encode("음식수정이 정상적으로 등록되지 않았습니다!", "UTF-8");
+				return "redirect:/list&error=" + encodeName;
+				
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return "redirect:/list";
 	}
 	
 

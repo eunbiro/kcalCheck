@@ -162,6 +162,7 @@ th {
 	border-radius: 8px;
 	color: #4a62d2;
 	background: #fff;
+	cursor: pointer;
 }
 
 .del-btn {
@@ -173,4 +174,3 @@ th {
 	cursor: pointer;
 	width: 50px;
 }
-

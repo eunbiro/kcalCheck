@@ -29,6 +29,16 @@
 					<td>${m.needKcal}</td>
 				</tr>
 				</c:forEach>
+				<tr>
+					<td colspan="4">
+					<a> </a>
+					</td>
+				</tr>
+				<tr>
+					<td class="tr-list" colspan="4" style="text-align: center;">
+						<a href="add">회원추가</a>
+					</td>
+				</tr>
 			</table>
 		</div>
 	</div>

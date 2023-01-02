@@ -28,6 +28,30 @@ function fn_Check() {
 	fn.submit();
 }
 
+function fn_addCheck() {
+	var fn = document.frm;
+	
+	if (fn.member_no.value == "") {
+		alert("회원번호를 입력해주세요");
+		fn.member_no.focus();
+		return false;
+	}
+	
+	if (fn.mname.value == "") {
+		alert("이름을 입력해주세요");
+		fn.mname.focus();
+		return false;
+	}
+	
+	if (fn.height.value == "") {
+		alert("키를 선택해주세요");
+		fn.height.focus();
+		return false;
+	}
+	
+	fn.submit();
+}
+
 function chkDelete(food_no, member_no) {
 	const result = confirm("정말 삭제하시겠습니까?");
 	
