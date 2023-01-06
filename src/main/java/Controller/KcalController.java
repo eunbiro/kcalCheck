@@ -85,6 +85,7 @@ public class KcalController extends HttpServlet {
 			String rview = site.substring("redirect:/".length());
 			System.out.println(rview);
 			response.sendRedirect(rview);
+			
 		} else {	
 		getServletContext().getRequestDispatcher("/" + site)
 		.forward(request, response);
