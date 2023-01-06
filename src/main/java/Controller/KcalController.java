@@ -186,10 +186,10 @@ public class KcalController extends HttpServlet {
 			try {
 			String encodeName = URLEncoder.encode("회원식단이 정상적으로 삭제되지 않았습니다!", "UTF-8");
 			return "redirect:/redirect:/alonelist?member_no=" + member_no + "&error=" + encodeName;
-			
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		}
+				
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 		return "redirect:/alonelist?member_no=" + member_no;
